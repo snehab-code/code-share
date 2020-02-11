@@ -9,19 +9,18 @@ import AgendaShow from './agendas/AgendaShow'
 import AgendaList from './agendas/AgendaList'
 
 function AdminLanding(props) {
+    console.log(props)
     return(
         <>
             {
                 props.isLoggedIn === false && <Redirect to="/code-admin" />
             }
-            ADMIN
             {
                 props.isLoggedIn === false && <AdminForm />
             }
             {
-                props.isLoggedIn && <Redirect to="/code-admin/batches" />
+                props.isLoggedIn && props.location.pathname=="/code-admin" && <Redirect to="/code-admin/batches" />
             }
-
         <Switch>
         {/* batches */}
 
