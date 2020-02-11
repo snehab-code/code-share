@@ -9,9 +9,13 @@ module.exports.getAccess = (req,res) => {
             exp: Math.floor(Date.now()/1000 + 15000)
         }, process.env.TOKEN_SECRET, (err, token) => {
             if (err) res.send(err)
-            res.send(token)
+            res.send({token: token})
         })
     } else {
         res.send({notice: 'Invalid key'})
     }
+}
+
+module.exports.checkAccess = (req, res) => {
+    res.send({notice: 'valid user'})
 }

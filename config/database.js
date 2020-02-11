@@ -8,7 +8,6 @@ const setupDB = () => {
         useUnifiedTopology: true
     })
         .then(() => {
-            // returns a mongoose instance
             console.log('connected to db')
         })
         .catch(err => {

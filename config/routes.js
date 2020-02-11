@@ -45,6 +45,7 @@ router.put('api/tags/:id', confirmAccess,tagsController.update)
 router.delete('api/tags/:id', confirmAccess, tagsController.destroy)
 
 // tokens
-router.post('api/admin', adminController.getAccess)
+router.post('api/admin/login', adminController.getAccess)
+router.post('api/admin/check-login', confirmAccess, adminController.checkAccess)
 
 module.exports = router
