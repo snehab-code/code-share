@@ -10,12 +10,12 @@ if (!window.location.href.includes('localhost')) {
 const axios = Axios.create({
     baseURL: url,
     headers: {
-        "x-auth": localStorage.getItem('authToken')
+        "x-auth": localStorage.getItem('token')
     }
 })
 
 axios.interceptors.request.use(config => {
-    config.headers['x-auth'] = localStorage.getItem('authToken')
+    config.headers['x-auth'] = localStorage.getItem('token')
     return config
 })
 

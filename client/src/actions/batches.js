@@ -18,7 +18,7 @@ const updateBatch = (id, batch) => {
 
 export const startGetBatches = () => {
     return (dispatch) => {
-        axios.post('/batches')
+        axios.get('/batches')
             .then(response => {
                 const batches = response.data
                 dispatch(setBatches(batches))
