@@ -65,11 +65,7 @@ class NoteList extends React.Component{
         //     })
         // }
 
-        // 
-
-        
-
-        
+        //    
     }
     handleNotesAdd = () => {
         this.props.history.push(`/code-admin/batches/${this.props.match.params.batchId}/agendas/${this.props.match.params.agendaId}/notes/add`)
