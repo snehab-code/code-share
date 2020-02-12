@@ -16,15 +16,15 @@ const updateAgenda = (id, agenda) => {
     return {type: 'UPDATE_AGENDA', payload: {id, agenda}}
 }
 
-export const startGetAgendas = () => {
+export const startGetAgendas = (id) => {
     return (dispatch) => {
-        axios.post('/agendas')
+        axios.get(`/agendas`)
             .then(response => {
                 const agendas = response.data
                 dispatch(setAgendas(agendas))
             })
             .catch(err => {
-                console.log('startgetagendas err')
+                console.log('startgetagendas err', err)
             })
     }
 }
@@ -56,14 +56,14 @@ export const startDeleteAgenda = (id) => {
     }
 }
 
-export const startPutAgenda = (id, formData, history) => {
+export const startPutAgenda = (id, formData) => {
     return (dispatch) => {
+        console.log(id, formData)
         axios.put(`/agendas/${id}`, formData)
             .then(response=>{
                 const agenda = response.data
                 const id = agenda._id
                 dispatch(updateAgenda(id, agenda))
-                history.push('/')
             })
             .catch(err => {
                 console.log(err => {

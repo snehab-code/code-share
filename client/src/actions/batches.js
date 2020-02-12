@@ -56,14 +56,13 @@ export const startDeleteBatch = (id) => {
     }
 }
 
-export const startPutBatch = (id, formData, history) => {
+export const startPutBatch = (formData, id) => {
     return (dispatch) => {
         axios.put(`/batches/${id}`, formData)
             .then(response=>{
                 const batch = response.data
                 const id = batch._id
                 dispatch(updateBatch(id, batch))
-                history.push('/')
             })
             .catch(err => {
                 console.log(err => {

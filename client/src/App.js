@@ -12,7 +12,7 @@ function App(props) {
     <BrowserRouter>
     <CssBaseline />
       <div className="App" style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-          <h1>Code</h1>
+          <h1 style={{margin:0}}>Code Share</h1>
 
         {/* landings */}
         <Route path="/" component={StudentLanding} exact />
@@ -25,7 +25,7 @@ function App(props) {
 
 const mapStateToProps = (state) => {
   return {
-    isLoggedIn: state.user.isLoggedIn
+    isLoggedIn: state.user ? state.user.isLoggedIn : ''
   }
 }
 export default connect(mapStateToProps)(App)

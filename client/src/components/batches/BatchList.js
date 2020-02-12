@@ -1,7 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
-
-import {startPostBatch, startDeleteBatch, startPutBatch} from '../../actions/batches'
+import {Link} from 'react-router-dom'
+import {startDeleteBatch} from '../../actions/batches'
+import BatchAdd from './BatchAdd'
+import BatchEdit from './BatchEdit'
 
 // material ui imports
 import Switch from '@material-ui/core/Switch'
@@ -13,13 +15,39 @@ import List from '@material-ui/core/List'
 import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
 import IconButton from '@material-ui/core/IconButton'
+import Button from '@material-ui/core/Button'
+
+import Modal from 'react-modal'
+
+// styles for Modal
+const customStyles = {
+    content : {
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        transform             : 'translate(-50%, -50%)',
+        backgroundColor       : 'white',
+        display               : "flex",
+        flexDirection         : "column",
+        alignItems            : "center"
+      }
+}
 
 class BatchShow extends React.Component {
     constructor() {
         super()
         this.state = {
-            showCompleted: false
+            showCompleted: false,
+            edit: '',
+            modalIsOpen: false,
+            showAdd: false
         }
+    }
+
+    componentDidMount() {
+        Modal.setAppElement('#root')
     }
 
     handleShowCompleted = () => {
@@ -27,13 +55,39 @@ class BatchShow extends React.Component {
     }
 
     handleDelete = (id) => {
-        console.log(id)
+        this.props.dispatch(startDeleteBatch(id))
     }
+
+    handleEdit = (id) => {
+        this.setState({edit: id, modalIsOpen: true})
+    }
+
+    handleAdd = () => {
+        this.setState({showAdd: true, modalIsOpen: true})
+    }
+
+    closeModal = () => {
+        this.setState({modalIsOpen: false, edit:'', showAdd:false})
+    }
+
 
     render(){
         return (
             <div className="content-container" style={{textAlign: "center", width:"80%"}}>
-                
+                <Modal
+                    isOpen = {this.state.modalIsOpen}
+                    onRequestClose = {this.closeModal}
+                    style={customStyles}
+                    contentLabel = "Batch modal"
+                >
+                    {
+                        this.state.showAdd && <BatchAdd closeModal={this.closeModal}/>
+                    }
+                    {
+                        this.state.edit && <BatchEdit closeModal={this.closeModal} id={this.state.edit} />
+                    }
+
+                </Modal>
                 <FormControlLabel 
                     style={{margin:10}}
                     labelPlacement="top"
@@ -47,21 +101,26 @@ class BatchShow extends React.Component {
                 }
                 label={this.state.showCompleted ? "Show ongoing" : "Show all"}
                 />
+                <br/>
+                <Button size="small" color="secondary" onClick={this.handleAdd}>Add Batches</Button>
 
                 <List className="batchlist" style={{background: "white"}}>
-                {   
+                {   !this.props.batches[0] && !this.props.completedBatches[0] ? 'No batches added' :
+                    !this.props.batches[0] && !this.state.showCompleted ? 'No ongoing batches' : 
                     this.props.batches.map(batch => {
                         return (
                           <ListItem key={batch._id} >
-                            <ListItemText
-                              primary={batch.name}
-                            />
+                            <Link to={`/code-admin/batches/${batch._id}`} style={{width:"100%", textDecoration:"none", color: "rgba(0, 0, 0, 0.87)"}}>
+                                <ListItemText
+                                primary={batch.name}
+                                />
+                            </Link>
                             <ListItemIcon>
                                 <>
-                              <IconButton aria-label="delete" onClick={() => this.handleDelete(batch._id)}>
+                              <IconButton aria-label="delete" onClick={() => this.handleDelete(batch._id)} color="secondary">
                                 <DeleteIcon />
                               </IconButton>
-                              <IconButton aria-label="edit" onClick={() => this.handleDelete(batch._id)}>
+                              <IconButton aria-label="edit" onClick={() => this.handleEdit(batch._id)} color="secondary">
                                 <EditIcon />
                               </IconButton>
                                 </>
@@ -71,19 +130,23 @@ class BatchShow extends React.Component {
                     })
                 }
 
-                {   this.state.showCompleted &&
+                {   this.props.batches[0] && this.state.showCompleted && !this.props.completedBatches[0] ? 'No completed batches' :
+                    !this.props.batches[0] && !this.props.completedBatches[0] && this.state.showCompleted ? '' :
+                    this.state.showCompleted &&
                     this.props.completedBatches.map(batch => {
                         return (
                             <ListItem key={batch._id} >
-                              <ListItemText
+                              <Link to={`/code-admin/batches/${batch._id}`} style={{width:"100%", textDecoration:"none", color: "rgba(0, 0, 0, 0.87)"}}>
+                                <ListItemText
                                 primary={batch.name}
-                              />
+                                />
+                              </Link>
                               <ListItemIcon>
                                   <>
-                                <IconButton aria-label="delete" onClick={() => this.handleDelete(batch._id)}>
+                                <IconButton aria-label="delete" onClick={() => this.handleDelete(batch._id)} color="secondary">
                                   <DeleteIcon />
                                 </IconButton>
-                                <IconButton aria-label="edit" onClick={() => this.handleDelete(batch._id)}>
+                                <IconButton aria-label="edit" onClick={() => this.handleEdit(batch._id)} color="secondary">
                                   <EditIcon />
                                 </IconButton>
                                 </>

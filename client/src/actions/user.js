@@ -1,5 +1,7 @@
 import axios from '../config/axios'
 import {startGetBatches} from '../actions/batches'
+import {startGetAgendas} from '../actions/agendas'
+import {startGetNotes} from '../actions/notes'
 
 const loginUser = () => {
     return {type: 'LOGIN_USER'}
@@ -18,6 +20,8 @@ export const startUserLogin = (formData, history) => {
                     localStorage.setItem('token', token)
                     dispatch(loginUser())
                     dispatch(startGetBatches())
+                    dispatch(startGetAgendas())
+                    dispatch(startGetNotes())
                     history.push('/code-admin/batches')
                 } else {
                     dispatch(logoutUser())
@@ -36,12 +40,18 @@ export const startCheckUserAuth = () => {
                 if(response.data.notice == 'valid user') {
                     dispatch(loginUser())
                     dispatch(startGetBatches())
+                    dispatch(startGetAgendas())
+                    dispatch(startGetNotes())
                 } else {
-                    dispatch(logoutUser())
+                    localStorage.removeItem('token')
                     dispatch({type: 'LOGOUT'})
+                    dispatch(logoutUser())
                 }
             })
             .catch(err => {
+                localStorage.removeItem('token')
+                dispatch({type: 'LOGOUT'})
+                dispatch(logoutUser())
                 console.log('startCheckUserAuth error', err)
             })
     }

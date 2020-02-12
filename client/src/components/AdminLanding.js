@@ -5,15 +5,13 @@ import AdminForm from './AdminForm'
 
 import BatchList from './batches/BatchList';
 import BatchShow from './batches/BatchShow'
-import AgendaShow from './agendas/AgendaShow'
-import AgendaList from './agendas/AgendaList'
+import NotesList from './notes/NotesList'
 
 function AdminLanding(props) {
-    console.log(props)
     return(
         <>
             {
-                props.isLoggedIn === false && <Redirect to="/code-admin" />
+                props.isLoggedIn == false && <Redirect to="/code-admin" />
             }
             {
                 props.isLoggedIn === false && <AdminForm />
@@ -28,8 +26,8 @@ function AdminLanding(props) {
         <Route path="/code-admin/batches/:batchId" component={BatchShow} exact/>
 
         {/* agendas */}
-        <Route path="/code-admin/batches/:batchId/agendas" component={AgendaList} />
-        <Route path="/code-admin/batches/agendas/:agenda" component={AgendaShow} />
+        <Route path="/code-admin/batches/:batchId/agendas" component={BatchShow} exact />
+        <Route path="/code-admin/batches/:batchId/agendas/:agendaId" component={NotesList} />
 
         {/* student agenda view */}
         
