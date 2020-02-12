@@ -13,7 +13,6 @@ module.exports.list = (req,res) => {
 
 module.exports.listAgendas = (req, res) => {
     const id = req.params.id
-    
     Agenda.find({'batch':id})
         .then(agendas => {
             if (agendas) {

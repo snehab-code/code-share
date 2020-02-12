@@ -14,4 +14,6 @@ const webSocket = io.on('connection', (socket) => {
     } 
 })
 
+// redo this to make a single namespace, get the url from there and then create ROOMS with the variable names instead of creatinga  namespace within the default namespace
+
 module.exports = { io, webSocket }
