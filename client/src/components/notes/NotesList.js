@@ -94,7 +94,7 @@ class NoteList extends React.Component{
             <h3>{this.state.otp}</h3>
             <br/>
             {
-                this.state.editAccess && <Button variant="outlined" size="small" color="secondary">Add Notes</Button>
+                this.state.editAccess && <Button variant="outlined" size="small" color="secondary" onClick={this.handleNotesAdd}>Add Notes</Button>
             }
             {
                 this.state.notes.map(note => {
