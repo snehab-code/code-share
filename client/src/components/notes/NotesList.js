@@ -1,10 +1,9 @@
 import React from 'react'
-// import {axios, axiosPublic} from '../../../config/axios'
-import axios from 'axios'
+import axiosStudent from '../../config/axiosStudent'
 import Note from './Note'
 import Button from '@material-ui/core/Button'
 import io from 'socket.io-client'
-import axiosMain from 'axios'
+import axios from '../../config/axios'
 
 class NoteList extends React.Component{
     constructor() {
@@ -22,7 +21,7 @@ class NoteList extends React.Component{
             if (!this.props.location.state) {
                 this.props.history.push('/')
             }
-            axios.get(`https://dct-code-share-redux.herokuapp.com/api/agendas/${this.props.match.params.agendaId}/notes`)
+            axiosStudent.get(`https://dct-code-share-redux.herokuapp.com/api/agendas/${this.props.match.params.agendaId}/notes`)
                 .then(response => {
                     const notes = response.data
                     if(Array.isArray(notes)) {
@@ -56,21 +55,21 @@ class NoteList extends React.Component{
                 })
         } else {
             this.setState({editAccess: true})
-            axios.all([
-                axios.get(`/agendas/${this.props.match.params.agendaId}/notes`), axios.get(`/agendas/${this.props.match.params.agendaId}`)
-            ])
-            .then(axios.spread((notes, agenda) => {
-                if (Array.isArray(notes.data)) {
+            axios.get(`/agendas/${this.props.match.params.agendaId}/notes`)
+                .then(notes => {
                     this.setState({notes: notes.data})
-                }
-                this.setState({otp: agenda.data.otp})
-            }))
-            .catch(err => {
-                this.props.history.push('/code-admin')
-            })
-        }
-
-           
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+            axios.get(`/agendas/${this.props.match.params.agendaId}`)
+                .then(agenda => {
+                    this.setState({otp: agenda.data.otp})
+                })
+                .catch(err => {
+                    this.props.history.push('/code-admin')
+                })
+        }  
     }
     handleNotesAdd = () => {
         this.props.history.push(`/code-admin/batches/${this.props.match.params.batchId}/agendas/${this.props.match.params.agendaId}/notes/add`)
@@ -89,11 +88,14 @@ class NoteList extends React.Component{
         // .catch(err => alert(err))
     }
 
-    render() {      
+    render() { 
         return (
          <div style={{display:'flex', flexDirection:"column", alignItems:"center", width:"100%"}}>
             <h3>{this.state.otp}</h3>
             <br/>
+            {
+                this.state.editAccess && <Button variant="outlined" size="small" color="secondary">Add Notes</Button>
+            }
             {
                 this.state.notes.map(note => {
                     return <div key={note._id} 

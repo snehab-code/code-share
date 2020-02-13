@@ -6,6 +6,8 @@ import AdminForm from './AdminForm'
 import BatchList from './batches/BatchList';
 import BatchShow from './batches/BatchShow'
 import NotesList from './notes/NotesList'
+import NoteAdd from './notes/NoteAdd'
+import NoteEdit from './notes/NoteEdit'
 
 function AdminLanding(props) {
     return(
@@ -27,7 +29,10 @@ function AdminLanding(props) {
 
         {/* agendas */}
         <Route path="/code-admin/batches/:batchId/agendas" component={BatchShow} exact />
-        <Route path="/code-admin/batches/:batchId/agendas/:agendaId" component={NotesList} />
+        <Route path="/code-admin/batches/:batchId/agendas/:agendaId" component={NotesList} exact/>
+
+        <Route path="/code-admin/batches/:batchId/agendas/:agendaId/notes/add" component={NoteAdd} exact/>
+        <Route path="/code-admin/batches/:batchId/agendas/:agendaId/notes/edit/:id" component={NoteEdit} />
 
         {/* student agenda view */}
         
