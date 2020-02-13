@@ -8,7 +8,7 @@ class NoteAdd extends React.Component{
         
         axios.post(`/notes`, formData)
             .then((response) => {
-                this.props.history.push(`/code-admin/batches/${this.props.match.params.batchId}/agendas/${this.props.match.params.agendaId}/notes`)
+                this.props.history.push(`/code-admin/batches/${this.props.match.params.batchId}/agendas/${this.props.match.params.agendaId}`)
             })
             .catch(err => {
                 this.props.history.push('/code-admin')

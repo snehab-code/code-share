@@ -32,13 +32,14 @@ class NoteList extends React.Component{
                     console.log(err)
                 })
             
-                let socketUrl
-                if (window.location.href.includes('localhost')) {
-                    socketUrl = `http://localhost:3010/agendas/${this.props.match.params.agendaId}`
-                } else {
-                    socketUrl = window.location.href
-                }
-                const socket = io(socketUrl)
+                // let socketUrl
+                // if (window.location.href.includes('localhost')) {
+                //     socketUrl = `http://localhost:3010/agendas/${this.props.match.params.agendaId}`
+                // } else {
+                //     socketUrl = window.location.href
+                // }
+                const socket = io(window.location.href)
+                // const socket=io(`/agendas/${this.props.match.params.agendaId}`)
                 // const socket = io(`http://localhost:3010/agendas/${this.props.match.params.agendaId}`)
                 socket.on('message', (message) => {
                     if (message._id) {
@@ -79,13 +80,13 @@ class NoteList extends React.Component{
     }
     handleRemove = (id) =>{
         
-        // axios.delete(`/notes/${id}` )
-        // .then(response =>{
-        //     this.setState(prevState => ({
-        //         notes : prevState.notes.filter(note => note._id !== response.data._id)
-        //     }))
-        // })
-        // .catch(err => alert(err))
+        axios.delete(`/notes/${id}` )
+        .then(response =>{
+            this.setState(prevState => ({
+                notes : prevState.notes.filter(note => note._id !== response.data._id)
+            }))
+        })
+        .catch(err => alert(err))
     }
 
     render() { 
