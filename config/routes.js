@@ -35,7 +35,7 @@ router.delete('/api/agendas/:id', confirmAccess,agendasController.destroy)
 router.get('/api/notes', confirmAccess,notesController.list)
 router.get('/api/notes/:id', confirmAccess,notesController.show)
 router.post('/api/notes', confirmAccess,notesController.create)
-router.put('/api/notes/:id', notesController.update)
+router.put('/api/notes/:id', confirmAccess, notesController.update)
 router.delete('/api/notes/:id', confirmAccess,notesController.destroy)
 
 //tags

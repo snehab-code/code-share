@@ -1,5 +1,4 @@
 const Note = require('../../app/models/note')
-const {io, webSocket} = require('../../config/socket')
 // const webpush = require('web-push')
 // const Subscriber = require('../models/subscriber')
 
@@ -43,7 +42,6 @@ module.exports.create = (req, res) => {
     
     note.save()
         .then(note => {
-            // console.log(note.title)
             // Subscriber.find()
             // .then(subscribers=>{
             //     const payload = JSON.stringify({
@@ -59,10 +57,10 @@ module.exports.create = (req, res) => {
             //     )
             // })
             // .catch(err=>console.log('Subscriber',err))
-            // const io = require('../../socket')
+            const io = require('../../config/socket')
             const agendaSpace = io.of(`/agendas/${note.agenda}`)
             agendaSpace.emit('message', note)
-            
+
             res.json(note)
         })
         .catch(err => {

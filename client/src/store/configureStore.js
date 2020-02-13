@@ -4,12 +4,16 @@ import thunk from 'redux-thunk'
 import agendasReducer from '../reducers/agendasReducer'
 import notesReducer from '../reducers/notesReducer'
 import userReducer from '../reducers/userReducer'
+import studentAgendaReducer from '../reducers/studentAgendaReducer'
+import studentNotesReducer from '../reducers/studentNotesReducer'
 
 const appReducer = combineReducers({
     batches: batchesReducer,
     agendas: agendasReducer,
     notes: notesReducer,
-    user: userReducer
+    user: userReducer,
+    studentAgenda: studentAgendaReducer,
+    studentNotes: studentNotesReducer
 })
 
 const rootReducer = (state, action) => {

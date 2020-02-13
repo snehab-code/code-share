@@ -60,9 +60,15 @@ module.exports.update = (req,res) => {
 }
 module.exports.destroy = (req,res) => {
     const id = req.params.id
-    Batch.findByIdAndDelete(id)
+    Batch.findById(id)
         .then(batch => {
-            res.json(batch)
+            batch.remove()
+                .then(batch => {
+                    res.json(batch)
+                })
+                .catch(err => {
+                    res.json(err)
+                })
         })
         .catch(err => {
             res.json(err)

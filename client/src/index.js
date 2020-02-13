@@ -8,11 +8,10 @@ import configureStore from './store/configureStore'
 
 const store = configureStore()
 
-console.log(store.getState(), 'initial state')
 
-store.subscribe(() => {
-    console.log(store.getState(), 'store update')
-})
+// store.subscribe(() => {
+//     console.log(store.getState(), 'store update')
+// })
 
 if (localStorage.getItem('token')) {
     store.dispatch(startCheckUserAuth())

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const Note = require('./note')
 const Schema = mongoose.Schema
 
 const agendaSchema = new Schema({
@@ -36,6 +37,18 @@ const agendaSchema = new Schema({
     }
 })
 
+agendaSchema.pre('remove', function(next) {
+    console.log('hi')
+    const agenda = this
+    Note.remove({agenda: agenda._id})
+        .then(() => {
+            next()
+        })
+        .catch(err => {
+            console.log(err)
+        })
+})
+
 agendaSchema.methods.validateOtp = function(otp) {
     const agenda = this
     const date = Date.now()
@@ -49,6 +62,8 @@ agendaSchema.methods.validateOtp = function(otp) {
         return Promise.resolve({notice: 'OTP has expired'})
     }
 }
+
+
 
 const Agenda = mongoose.model('Agenda', agendaSchema)
 

@@ -16,7 +16,7 @@ const updateAgenda = (id, agenda) => {
     return {type: 'UPDATE_AGENDA', payload: {id, agenda}}
 }
 
-export const startGetAgendas = (id) => {
+export const startGetAgendas = () => {
     return (dispatch) => {
         axios.get(`/agendas`)
             .then(response => {

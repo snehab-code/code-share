@@ -6,6 +6,7 @@ import {connect} from 'react-redux'
 // component imports
 import StudentLanding from './components/StudentLanding'
 import AdminLanding from './components/AdminLanding'
+import NoteList from './components/notes/NotesList'
 
 function App(props) {
   return (
@@ -17,6 +18,8 @@ function App(props) {
         {/* landings */}
         <Route path="/" component={StudentLanding} exact />
         <Route path="/code-admin" component={AdminLanding} />
+
+        <Route path="/agendas/:agendaId" component={NoteList} exact />
 
       </div>
     </BrowserRouter>

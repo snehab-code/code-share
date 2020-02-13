@@ -1,6 +1,6 @@
 const Agenda = require('../../app/models/agenda')
 const Note = require('../../app/models/note')
- 
+
 module.exports.list = (req, res) => {
     const otp = req.query.otp
     if(otp) {
@@ -125,13 +125,15 @@ module.exports.update = (req,res) => {
 
 module.exports.destroy = (req,res) => {
     const id = req.params.id
-    Agenda.findByIdAndDelete(id)
+    Agenda.findById(id)
         .then(agenda => {
-            if(agenda) {
-                res.json(agenda)
-            } else {
-                res.json({})
-            }
+            agenda.remove()
+                .then(agenda => {
+                    res.json(agenda)
+                })
+                .catch(err => {
+                    res.json(err)
+                })
         })
         .catch(err => {
             res.json(err)
