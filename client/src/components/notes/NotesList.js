@@ -22,7 +22,7 @@ class NoteList extends React.Component{
             if (!this.props.location.state) {
                 this.props.history.push('/')
             }
-            axios.get(`http://localhost:3010/api/agendas/${this.props.match.params.agendaId}/notes`)
+            axios.get(`https://dct-code-share-redux.herokuapp.com/api/agendas/${this.props.match.params.agendaId}/notes`)
                 .then(response => {
                     const notes = response.data
                     if(Array.isArray(notes)) {
