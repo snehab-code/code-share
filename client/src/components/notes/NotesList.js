@@ -13,8 +13,6 @@ function NoteList(props){
         props.dispatch(startDeleteNote(id))
     }
 
-    console.log(props, 'notelist props')
-
     return (
         <div style={{display:'flex', flexDirection:"column", alignItems:"center", width:"100%"}}>
 
@@ -39,7 +37,6 @@ function NoteList(props){
 }
 
 const mapStateToProps = (state, props) => {
-    console.log('mapstate in noteslist ran', state, props)
     return {
         batch: state.batches.find(batch => batch._id == props.match.params.batchId),
         agenda: state.agendas.find(agenda => agenda._id == props.match.params.agendaId),

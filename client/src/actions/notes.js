@@ -65,6 +65,10 @@ export const startPutNote = (id, formData, history, batchId, agendaId) => {
         axios.put(`/notes/${id}`, formData)
             .then(response=>{
                 const note = response.data
+                note.agenda = {
+                    _id: agendaId,
+                    batch: batchId
+                }
                 const id = note._id
                 dispatch(updateNote(id, note))
                 history.push(`/code-admin/batches/${batchId}/agendas/${agendaId}`)

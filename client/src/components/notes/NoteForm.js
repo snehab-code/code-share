@@ -24,7 +24,8 @@ class NoteForm extends React.Component {
             description : props.description ? props.description : '',
             code : props.code ? props.code : '',
             tags: props.tags ? props.tags : [],
-            mode: 'javascript'
+            mode: 'javascript',
+            noteId: props.noteId ? props.noteId : ''
         }
         // this.instance = null;
     }
@@ -44,7 +45,7 @@ class NoteForm extends React.Component {
             agenda : this.props.agenda,
             tags : this.state.tags
         }
-        this.props.handleSubmit(formData)
+        this.props.handleSubmit(formData, this.state.noteId)
     }
     
 	changeMode=(e) =>{

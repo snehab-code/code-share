@@ -20,7 +20,6 @@ class BatchForm extends React.Component{
             name: this.state.name,
             isOngoing: this.state.isOngoing
         }
-        console.log(formData)
         this.props.handleSubmit(formData)
     }
 
@@ -33,7 +32,6 @@ class BatchForm extends React.Component{
     }
 
     render() {
-        console.log(this.state)
         return (
             <form onSubmit={this.handleSubmit} style={{display:"flex", flexDirection: "column", alignItems:"center"}}>
                 <label></label>

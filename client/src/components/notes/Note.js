@@ -28,7 +28,6 @@ class Note extends React.Component {
 
     handleRemove = (id)=>{
         this.props.handleRemove(id)
-
     }
 
     render() {
@@ -44,7 +43,8 @@ class Note extends React.Component {
                                     title: this.props.title,
                                     code: this.props.code,
                                     description: this.props.description,
-                                    tags: this.props.tags
+                                    tags: this.props.tags,
+                                    noteId: this.props._id
                                 }
                             }}>
                                 <Button style = {{padding:7, margin:0, minWidth:20}} size="small" color="secondary">     

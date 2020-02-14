@@ -69,7 +69,6 @@ class AgendaList extends React.Component{
     }
 
     render() {
-        console.log(this.props)
         return (
             <div style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
 

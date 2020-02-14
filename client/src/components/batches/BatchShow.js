@@ -10,7 +10,6 @@ class BatchShow extends React.Component {
     }
 
     render() {
-        console.log(this.props.batch)
         return (
             <>
                 <h3 style={{marginTop:10, marginBottom:10}}>{this.props.batch && this.props.batch.name}</h3>

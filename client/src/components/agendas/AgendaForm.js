@@ -50,7 +50,6 @@ class AgendaForm extends React.Component{
 
     handleChange = (e) => {
         this.setState({[e.target.name]: e.target.value})
-        console.log(e.target.value)
     }
 
     handleOtpGeneration = () => {
@@ -62,7 +61,6 @@ class AgendaForm extends React.Component{
     }
 
     handleDateChange = (name, date) => {
-        console.log(date)
         switch (name) {
             case 'agendaDate': 
              const agendaDate = moment(date._d)
@@ -82,7 +80,7 @@ class AgendaForm extends React.Component{
     }
 
     render() {
-        console.log('agendaForm', this.props)
+
         return (
             <>
             <MuiPickersUtilsProvider utils={MomentUtils}>
