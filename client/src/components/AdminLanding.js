@@ -32,7 +32,7 @@ function AdminLanding(props) {
         <Route path="/code-admin/batches/:batchId/agendas/:agendaId" component={NotesList} exact/>
 
         <Route path="/code-admin/batches/:batchId/agendas/:agendaId/notes/add" component={NoteAdd} exact/>
-        <Route path="/code-admin/batches/:batchId/agendas/:agendaId/notes/edit/:id" component={NoteEdit} />
+        <Route path="/code-admin/batches/:batchId/agendas/:agendaId/notes/edit" component={NoteEdit} />
 
         {/* student agenda view */}
         

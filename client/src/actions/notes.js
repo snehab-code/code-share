@@ -29,13 +29,17 @@ export const startGetNotes = (token) => {
     }
 }
 
-export const startPostNote = (formData) => {
+export const startPostNote = (formData, history, batchId, agendaId) => {
     return (dispatch) => {
         axios.post('/notes', formData)
             .then(response => {
                 const note = response.data
+                note.agenda = {
+                    _id: agendaId,
+                    batch: batchId
+                }
                 dispatch(addNote(note))
-                // dispatch()
+                history.push(`/code-admin/batches/${batchId}/agendas/${agendaId}`)
             })
             .catch(err => {
                 console.log('startPostNote err', err)
@@ -56,14 +60,14 @@ export const startDeleteNote = (id) => {
     }
 }
 
-export const startPutNote = (id, formData, history) => {
+export const startPutNote = (id, formData, history, batchId, agendaId) => {
     return (dispatch) => {
         axios.put(`/notes/${id}`, formData)
             .then(response=>{
                 const note = response.data
                 const id = note._id
                 dispatch(updateNote(id, note))
-                history.push('/')
+                history.push(`/code-admin/batches/${batchId}/agendas/${agendaId}`)
             })
             .catch(err => {
                 console.log(err => {

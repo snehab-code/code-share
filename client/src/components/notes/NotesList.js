@@ -1,117 +1,50 @@
 import React from 'react'
-import axiosStudent from '../../config/axiosStudent'
 import Note from './Note'
 import Button from '@material-ui/core/Button'
-import io from 'socket.io-client'
-import axios from '../../config/axios'
+import { connect } from 'react-redux'
+import { startDeleteNote, startPutNote } from '../../actions/notes'
+import {Link} from 'react-router-dom'
 
-class NoteList extends React.Component{
-    constructor() {
-        super()
-        this.state = {
-            notes: [],
-            editAccess: false,
-            otp: ""
-        }
+// styles for Modal
+
+function NoteList(props){
+
+    const handleRemove = (id) => {
+        props.dispatch(startDeleteNote(id))
     }
 
-    componentDidMount() {
-        if (this.props.match.path == "/agendas/:agendaId") {
-            this.setState({editAccess: false, otp: this.props.location.state? this.props.location.state.otp:""})
-            if (!this.props.location.state) {
-                this.props.history.push('/')
-            }
-            axiosStudent.get(`https://dct-code-share-redux.herokuapp.com/api/agendas/${this.props.match.params.agendaId}/notes`)
-                .then(response => {
-                    const notes = response.data
-                    if(Array.isArray(notes)) {
-                        this.setState({notes})
-                    }
-                })
-                .catch(err => {
-                    console.log(err)
-                })
+    console.log(props, 'notelist props')
+
+    return (
+        <div style={{display:'flex', flexDirection:"column", alignItems:"center", width:"100%"}}>
+
+            <h3 style={{margin:20}}>{props.batch && props.batch.name} - <span style={{color: "#f50057"}}>{props.agenda && props.agenda.otp}</span></h3>
             
-                // let socketUrl
-                // if (window.location.href.includes('localhost')) {
-                //     socketUrl = `http://localhost:3010/agendas/${this.props.match.params.agendaId}`
-                // } else {
-                //     socketUrl = window.location.href
-                // }
-                const socket = io(window.location.href)
-                // const socket=io(`/agendas/${this.props.match.params.agendaId}`)
-                // const socket = io(`http://localhost:3010/agendas/${this.props.match.params.agendaId}`)
-                socket.on('message', (message) => {
-                    if (message._id) {
-                        const note = message
-                        this.setState(prevState => {
-                            if (!prevState.notes.find(ele =>  ele._id == note._id )) {        
-                                return {notes: [note, ...prevState.notes]}
-                            } else {
-                                return {notes: [...prevState.notes]}
-                            }
-                        })
-                    }
-        
-                })
-        } else {
-            this.setState({editAccess: true})
-            axios.get(`/agendas/${this.props.match.params.agendaId}/notes`)
-                .then(notes => {
-                    this.setState({notes: notes.data})
-                })
-                .catch(err => {
-                    console.log(err)
-                })
-            axios.get(`/agendas/${this.props.match.params.agendaId}`)
-                .then(agenda => {
-                    this.setState({otp: agenda.data.otp})
-                })
-                .catch(err => {
-                    this.props.history.push('/code-admin')
-                })
-        }  
-    }
-    handleNotesAdd = () => {
-        this.props.history.push(`/code-admin/batches/${this.props.match.params.batchId}/agendas/${this.props.match.params.agendaId}/notes/add`)
-    }
-    handleEdit = (id) =>{
-        this.props.history.push(`/code-admin/batches/${this.props.match.params.batchId}/agendas/${this.props.match.params.agendaId}/notes/edit/${id}`)
-    }
-    handleRemove = (id) =>{
-        
-        axios.delete(`/notes/${id}` )
-        .then(response =>{
-            this.setState(prevState => ({
-                notes : prevState.notes.filter(note => note._id !== response.data._id)
-            }))
-        })
-        .catch(err => alert(err))
-    }
-
-    render() { 
-        return (
-         <div style={{display:'flex', flexDirection:"column", alignItems:"center", width:"100%"}}>
-            <h3>{this.state.otp}</h3>
+            <Link style={{textDecoration: "none"}} to={`/code-admin/batches/${props.match.params.batchId}/agendas/${props.match.params.agendaId}/notes/add`}>
+                <Button variant="outlined" size="small" color="secondary">Add Notes</Button>
+            </Link>
             <br/>
+            
             {
-                this.state.editAccess && <Button variant="outlined" size="small" color="secondary" onClick={this.handleNotesAdd}>Add Notes</Button>
-            }
-            {
-                this.state.notes.map(note => {
+                props.notes.map(note => {
                     return <div key={note._id} 
-                    style={{margin:10, backgroundImage: "linear-gradient(to left,  #e4f0f7, #f2f9fc)", border:"1px solid white", width:"70%", display:"flex", flexDirection:"column", justifyContent:"center"}}
+                    style={{margin:10, width:"80%", display:"flex", flexDirection:"column", justifyContent:"center"}}
                 >
-                    <Note batch={this.props.match.params.batchId} 
-                         agenda = {this.props.match.params.agendaId} 
-                         {...note} 
-                         editAccess={this.state.editAccess} handleEdit ={this.handleEdit} handleRemove = {this.handleRemove}/>
+                    <Note {...note} editAccess={true} batchId={props.match.params.batchId} agendaId ={props.match.params.agendaId} handleRemove = {handleRemove}/>
                 </div>
                 })
             }
-         </div>   
-        )
+        </div> 
+    )
+}
+
+const mapStateToProps = (state, props) => {
+    console.log('mapstate in noteslist ran', state, props)
+    return {
+        batch: state.batches.find(batch => batch._id == props.match.params.batchId),
+        agenda: state.agendas.find(agenda => agenda._id == props.match.params.agendaId),
+        notes: state.notes.filter(note => note.agenda._id == props.match.params.agendaId)
     }
 }
 
-export default NoteList
+export default connect(mapStateToProps)(NoteList)

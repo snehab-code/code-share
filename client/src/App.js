@@ -4,22 +4,23 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import {connect} from 'react-redux'
 
 // component imports
+import Header from './components/Header'
 import StudentLanding from './components/StudentLanding'
 import AdminLanding from './components/AdminLanding'
-import NoteList from './components/notes/NotesList'
+import StudentNoteList from './components/StudentNoteList'
 
 function App(props) {
   return (
     <BrowserRouter>
     <CssBaseline />
       <div className="App" style={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-          <h1 style={{margin:0}}>Code Share</h1>
+        <Header />
 
         {/* landings */}
         <Route path="/" component={StudentLanding} exact />
         <Route path="/code-admin" component={AdminLanding} />
 
-        <Route path="/agendas/:agendaId" component={NoteList} exact />
+        <Route path="/agendas/:agendaId" component={StudentNoteList} exact />
 
       </div>
     </BrowserRouter>

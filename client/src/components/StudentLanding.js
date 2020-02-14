@@ -26,7 +26,7 @@ class StudentLanding extends React.Component{
     }
 
     handleOtpMatch = (otp) => {
-        this.setState({otp})
+        this.setState({otp, redirect: true})
         this.props.dispatch(startGetStudentAgenda(otp))
     }
 
@@ -36,7 +36,7 @@ class StudentLanding extends React.Component{
     }
 
     render() {
-        console.log(this.state)
+        console.log(this.props, 'student landing props')
         return (
             <div className="otpContainer" style={{display:"flex", flexDirection: "column", alignItems:"center", justifyContent:"center", height:"40vh"}}>
                 {   
@@ -55,8 +55,7 @@ class StudentLanding extends React.Component{
 
                 {
                     this.state.redirect && <Redirect to ={{
-                        pathname: `/agendas/${this.props.agenda._id}`,
-                        state: {match: true, otp: this.state.otp}
+                        pathname: `/agendas/${this.props.agenda._id}`
                     }} />
                 }
                 

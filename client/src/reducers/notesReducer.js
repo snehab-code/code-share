@@ -4,7 +4,7 @@ const notesReducer = (state=[], action) => {
             return [...action.payload]
         }
         case 'ADD_NOTE': {
-            return [...state, action.payload]
+            return [action.payload, ...state]
         }
         case 'REMOVE_NOTE': {
             return state.filter(note => note._id !== action.payload)

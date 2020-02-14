@@ -1,35 +1,23 @@
 import React from 'react'
 import NoteForm from './NoteForm'
-import axios from '../../config/axios'
+import {startPostNote} from '../../actions/notes'
+import {connect} from 'react-redux'
 
-class NoteAdd extends React.Component{
+function NoteAdd(props){
 
-    handleSubmit = (formData) => {
-        
-        axios.post(`/notes`, formData)
-            .then((response) => {
-                this.props.history.push(`/code-admin/batches/${this.props.match.params.batchId}/agendas/${this.props.match.params.agendaId}`)
-            })
-            .catch(err => {
-                this.props.history.push('/code-admin')
-            })
+    const handleSubmit = (formData) => {
+        props.dispatch(startPostNote(formData, props.history, props.match.params.batchId, props.match.params.agendaId))
     }
 
-    render() {
-        const defaults = {
-            htmlmixed: '',
-            javascript: '',
-            css : ''
-          }
-        return (
-         <div style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
-           <NoteForm 
-                batch={this.props.match.params.batchId} 
-                agenda = {this.props.match.params.agendaId} defaults = {defaults} handleSubmit = {this.handleSubmit} 
-            />
-         </div>   
-        )
-    }
+    return (
+        <div style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
+            <h3 style={{textAlign:"center"}}>Add a note</h3>
+        <NoteForm 
+            batch={props.match.params.batchId} 
+            agenda = {props.match.params.agendaId} handleSubmit = {handleSubmit} 
+        />
+        </div>   
+    )
 }
 
-export default NoteAdd
+export default connect()(NoteAdd)

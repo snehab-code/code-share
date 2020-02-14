@@ -12,6 +12,7 @@ export const startGetStudentNotes = (agendaId) => {
     return (dispatch) => {
         axiosStudent.get(`/agendas/${agendaId}/notes`)
             .then(response => {
+                console.log(response.data)
                 const notes = response.data
                 dispatch(setStudentNotes(notes))
             })
