@@ -3,17 +3,12 @@ import Note from './notes/Note'
 import { connect } from 'react-redux'
 import {startGetStudentNotes, removeStudentNotes} from '../actions/studentNotes'
 
-// styles for Modal
 
 class StudentNoteList extends React.Component{
 
     componentDidMount() {
         this.props.agenda._id ? this.props.dispatch(startGetStudentNotes(this.props.agenda._id)) : this.props.history.push('/')
     }
-
-    // componentWillUnmount() {
-    //     this.props.dispatch(removeStudentNotes())
-    // }
 
     render() {
         return (
@@ -38,7 +33,6 @@ class StudentNoteList extends React.Component{
 }
 
 const mapStateToProps = (state, props) => {
-    console.log(state, 'mapStateToProps')
     return {
         agenda: state.studentAgenda,
         notes: state.studentNotes

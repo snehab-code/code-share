@@ -36,7 +36,6 @@ class StudentLanding extends React.Component{
     }
 
     render() {
-        console.log(this.props, 'student landing props')
         return (
             <div className="otpContainer" style={{display:"flex", flexDirection: "column", alignItems:"center", justifyContent:"center", height:"40vh"}}>
                 {   
