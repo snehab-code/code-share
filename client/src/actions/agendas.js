@@ -58,7 +58,6 @@ export const startDeleteAgenda = (id) => {
 
 export const startPutAgenda = (id, formData) => {
     return (dispatch) => {
-        console.log(id, formData)
         axios.put(`/agendas/${id}`, formData)
             .then(response=>{
                 const agenda = response.data

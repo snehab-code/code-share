@@ -135,7 +135,7 @@ class AgendaForm extends React.Component{
 
 const mapStateToProps = (state, props) => {
     return{
-        agenda: state.agendas.find(agenda=> agenda._id == props.agendaId)
+        agenda: state.agendas.find(agenda=> agenda._id === props.agendaId)
     }
 }
 

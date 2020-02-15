@@ -27,7 +27,6 @@ batchSchema.pre('remove', function(next) {
                     Note.remove({agenda: agendaObj._id})
                         .then(note => {
                             console.log(note)
-                            // how does the async work here. Does agendas get returned before the deletion is done? Is that good or bad??? Need more research bec what if there's like 10000 notes. It works but what's the point if idk how exactly
                         })
                         .catch(err => {
                             console.log(err)

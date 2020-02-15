@@ -4,15 +4,18 @@ const setStudentNotes = (notes) => {
     return {type: 'SET_STUDENT_NOTES', payload: notes}
 }
 
-export const removeStudentNotes = () => {
-    return {type: 'REMOVE_STUDENT_NOTES'}
+export const addStudentNote = (note) => {
+    return {type: 'ADD_STUDENT_NOTE', payload: note}
+}
+
+export const removeStudentNote = (id) => {
+    return {type: 'REMOVE_STUDENT_NOTE', payload: id}
 }
 
 export const startGetStudentNotes = (agendaId) => {
     return (dispatch) => {
         axiosStudent.get(`/agendas/${agendaId}/notes`)
             .then(response => {
-                console.log(response.data)
                 const notes = response.data
                 dispatch(setStudentNotes(notes))
             })

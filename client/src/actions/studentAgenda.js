@@ -12,7 +12,6 @@ export const startGetStudentAgenda = (otp) => {
     return (dispatch) => {
         axiosStudent.get(`/agendas?otp=${otp}`)
             .then(response => {
-                console.log(response.data)
                 const agenda = response.data
                 dispatch(setStudentAgenda(agenda))
             })

@@ -1,10 +1,10 @@
-const studentAgendasReducer = (state=[], action) => {
+const studentAgendaReducer = (state={}, action) => {
     switch(action.type) {
         case 'SET_STUDENT_AGENDA' : {
             return {...action.payload}
         }
         case 'REMOVE_STUDENT_AGENDA': {
-            return []
+            return {}
         }
         default : {
             return state
@@ -12,4 +12,4 @@ const studentAgendasReducer = (state=[], action) => {
     }
 }
 
-export default studentAgendasReducer
+export default studentAgendaReducer

@@ -74,6 +74,7 @@ class BatchShow extends React.Component {
     render(){
         return (
             <div className="content-container" style={{textAlign: "center", width:"80%"}}>
+                <h4 style={{marginTop:10, marginBottom:10, color: "#f50057"}}>Batches</h4>
                 <Modal
                     isOpen = {this.state.modalIsOpen}
                     onRequestClose = {this.closeModal}
@@ -102,7 +103,7 @@ class BatchShow extends React.Component {
                 label={this.state.showCompleted ? "Show ongoing" : "Show all"}
                 />
                 <br/>
-                <Button size="small" color="secondary" onClick={this.handleAdd}>Add Batches</Button>
+                <Button size="small" color="secondary" variant = "outlined" onClick={this.handleAdd}>Add Batches</Button>
 
                 <List className="batchlist" style={{background: "white"}}>
                 {   !this.props.batches[0] && !this.props.completedBatches[0] ? 'No batches added' :

@@ -9,7 +9,6 @@ function BatchEdit(props) {
         props.dispatch(startPutBatch(formData, props.id))
         props.closeModal()
     }
-
     return (
         <>
             <h3>Edit Batch</h3>

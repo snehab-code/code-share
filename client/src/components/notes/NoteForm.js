@@ -1,16 +1,14 @@
 import React from 'react'
-import Select from 'react-select';
-import withRouter from 'react-router-dom'
+import {connect} from 'react-redux'
 
 import Button from '@material-ui/core/Button'
 import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import CreatableSelect from 'react-select/creatable'
 
 import { Controlled as CodeMirror } from 'react-codemirror2';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/neo.css';
-
-
 import 'codemirror/mode/htmlmixed/htmlmixed';
 import 'codemirror/mode/css/css';
 import 'codemirror/mode/javascript/javascript';
@@ -25,9 +23,9 @@ class NoteForm extends React.Component {
             code : props.code ? props.code : '',
             tags: props.tags ? props.tags : [],
             mode: 'javascript',
-            noteId: props.noteId ? props.noteId : ''
+            noteId: props.noteId ? props.noteId : '',
+            noteTags: props.noteTags ? props.noteTags : []
         }
-        // this.instance = null;
     }
    
     handleChange  = (e) => {
@@ -43,9 +41,9 @@ class NoteForm extends React.Component {
             description : this.state.description,
             code : this.state.code,
             agenda : this.props.agenda,
-            tags : this.state.tags
+            tags : this.state.noteTags
         }
-        this.props.handleSubmit(formData, this.state.noteId)
+        this.props.handleSubmit(formData, this.state.noteId)        
     }
     
 	changeMode=(e) =>{
@@ -53,9 +51,19 @@ class NoteForm extends React.Component {
 		this.setState({
 			mode: mode
 		});
-	}
+    }
+    
+    handleTagChange = (newValue, actionMeta) => {
+            console.log(`action: ${actionMeta.action}`);
+            if (newValue) {
+                this.setState({noteTags: newValue})
+            } else {
+                this.setState({noteTags: []})
+            }
+    }
 	
     render(){
+        console.log(this.state.noteTags, this.props.tags)
         return (
             <form onSubmit = {this.handleSubmit}>
                 <label htmlFor = "title"> Title </label>
@@ -104,6 +112,13 @@ class NoteForm extends React.Component {
                     autoFocus={true} 
 
                     />
+                <CreatableSelect
+                    isMulti
+                    cacheOptions
+                    onChange={this.handleTagChange}
+                    options={this.props.creatableTags}
+                    value = {this.state.noteTags}
+                />
                 <Button type="submit" variant="outlined" size="small" color="secondary">Submit</Button>
             </form>
         )
@@ -112,5 +127,22 @@ class NoteForm extends React.Component {
 }
 
 
+const mapStateToProps = (state, props) => {
+    return {
+        allTags: state.tags,
+        creatableTags: state.tags.map(tag => {
+            return {
+                label: tag.name,
+                value: tag._id
+            }
+        }),
+        noteTags: props.tags && props.tags.map(tag => { 
+            return {
+                label: tag.name,
+                value: tag._id
+            }
+        })
+    }
+}
 
-export default NoteForm
+export default connect(mapStateToProps)(NoteForm)

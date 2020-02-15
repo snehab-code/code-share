@@ -59,7 +59,7 @@ class BatchForm extends React.Component{
 const mapStateToProps = (state, props) => {
     if (props.id) {
         return {
-            batch: state.batches.find(batch=> batch._id == props.id)
+            batch: state.batches.find(batch=> batch._id === props.id)
         }
     } else {
         return {

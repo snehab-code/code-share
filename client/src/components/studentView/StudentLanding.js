@@ -1,5 +1,5 @@
 import React from 'react'
-import {startGetStudentAgenda, removeStudentAgenda} from '../actions/studentAgenda'
+import {startGetStudentAgenda, removeStudentAgenda} from '../../actions/studentAgenda'
 import {connect} from 'react-redux'
 import OtpForm from './OtpForm'
 import {Redirect} from 'react-router-dom'
@@ -19,7 +19,7 @@ class StudentLanding extends React.Component{
 
     static getDerivedStateFromProps(props) {
         return {
-            match: (props.agenda && props.agenda._id || props.agenda.notice) ? true : false,
+            match: (props.agenda && (props.agenda._id || props.agenda.notice)) ? true : false,
             notice: props.agenda && props.agenda.notice,
             redirect: props.agenda && props.agenda._id ? true : false
         }

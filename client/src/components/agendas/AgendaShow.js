@@ -85,13 +85,27 @@ class AgendaShow extends React.Component {
                                 <Button variant="outlined" size="small" color="secondary" style={{marginRight:10}} onClick={this.handleEdit}>
                                    <EditOutlinedIcon fontSize="small" />
                                 </Button>
+                            
+                            {/* Link to add note */}
+
+                                <Link to={
+                                    Object.keys(this.props.agenda).length > 0 
+                                    ? 
+                                    `/code-admin/batches/${this.props.agenda.batch}/agendas/${this.props.agenda._id}/notes/add`
+                                    : 
+                                    ''
+                                } style={{textDecoration: "none"}}>
+                                <Button variant="outlined" size="small" color="secondary" style={{marginRight:10}}>
+                                   Add Note
+                                </Button>
+                                </Link>
 
                             {/* Link to NoteList */}
 
                                 <Link to={
                                     Object.keys(this.props.agenda).length > 0 
                                     ? 
-                                    `/code-admin/batches/${this.props.agenda.batch}/agendas/${this.props.agenda._id}` 
+                                    `/code-admin/batches/${this.props.agenda.batch}/agendas/${this.props.agenda._id}/notes` 
                                     : 
                                     ""
                                 } style={{textDecoration: "none"}}>
@@ -123,11 +137,11 @@ class AgendaShow extends React.Component {
 const mapStateToProps = (state, props) => {
     if (props.agendaId) {
         return {
-            agenda: state.agendas.find(agenda=> agenda._id == props.agendaId)
+            agenda: state.agendas.find(agenda=> agenda._id === props.agendaId)
         }
     } else {
         return {
-            agenda:state.agendas.find(agenda=> agenda._id == props.match.params.agendaId)
+            agenda:state.agendas.find(agenda=> agenda._id === props.match.params.agendaId)
         }
     }
     

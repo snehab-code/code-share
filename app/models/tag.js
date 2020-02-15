@@ -9,9 +9,6 @@ const tagSchema = new Schema({
     createdAt: {
         type: Date,
         default: Date.now()
-    },
-    taggedIn: {
-        type: [Schema.Types.ObjectId]
     }
 })
 

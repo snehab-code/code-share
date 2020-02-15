@@ -24,15 +24,26 @@ module.exports.show = (req, res) => {
 
 module.exports.create = (req, res) => {
     const body = req.body
-    const tag = new Tag(body)
-    tag.save()
-        .then(tag => {
-            res.json(tag)
+    if (Array.isArray(req.body)) {
+        Tag.insertMany(body)
+        .then(tags => {
+            res.json(tags)
         })
         .catch(err => {
             res.json(err)
         })
+    } else {
+        const tag = new Tag(body)
+        tag.save()
+            .then(tag => {
+                res.json(tag)
+            })
+            .catch(err => {
+                res.json(err)
+            })
+    }
 }
+
 
 module.exports.update = (req, res) => {
     const id = req.params.id

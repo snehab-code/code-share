@@ -38,7 +38,6 @@ const agendaSchema = new Schema({
 })
 
 agendaSchema.pre('remove', function(next) {
-    console.log('hi')
     const agenda = this
     Note.remove({agenda: agenda._id})
         .then(() => {

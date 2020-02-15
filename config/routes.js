@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 const confirmAccess = require('../app/middlewares/confirmAccess')
 const conditionalAccess = require('../app/middlewares/conditionalAccess')
-console.log('router up')
 
 module.exports = router
 

@@ -110,7 +110,7 @@ class AgendaList extends React.Component{
                     />
                 </div>
                 
-                <Link style={{textDecoration:"none"}} to="/code-admin/batches"><Button size="small" color="secondary">Back</Button ></Link>
+                {/* <Link style={{textDecoration:"none"}} to="/code-admin/batches"><Button size="small" color="secondary">Back</Button ></Link> */}
                 
             </div>
         )
@@ -119,8 +119,8 @@ class AgendaList extends React.Component{
 
 const mapStateToProps = (state, props) => {
     return {
-        agendas: state.agendas.filter(agenda=> agenda.batch == props.match.params.batchId),
-        calendarEvents: state.agendas.filter(agenda=> agenda.batch == props.match.params.batchId).map(agenda=> {
+        agendas: state.agendas.filter(agenda=> agenda.batch === props.match.params.batchId),
+        calendarEvents: state.agendas.filter(agenda=> agenda.batch === props.match.params.batchId).map(agenda=> {
             return {
                 title: agenda.title,
                 start: agenda.agendaDate,

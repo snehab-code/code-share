@@ -12,7 +12,7 @@ function NoteEdit(props){
     return (
         <div style={{display:"flex", flexDirection:"column", alignItems:"center", width:"80%"}}>
             <h3 style={{textAlign:"center"}}>Edit a note</h3>
-        <NoteForm 
+        {props.tags[0] && <NoteForm 
             batch={props.match.params.batchId} 
             agenda = {props.match.params.agendaId} 
             handleSubmit = {handleSubmit}
@@ -21,10 +21,13 @@ function NoteEdit(props){
             description = {props.location.state.title}
             tags = {props.location.state.tags}
             noteId = {props.location.state.noteId}
-        />
+        />}
         </div>   
     )
 }
 
+const mapStateToProps = (state) => {
+    return {tags: state.tags}
+}
 
-export default connect()(NoteEdit)
+export default connect(mapStateToProps)(NoteEdit)

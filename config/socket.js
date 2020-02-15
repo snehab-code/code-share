@@ -3,6 +3,12 @@ const socket = require('socket.io')
 
 const io = socket(server)
 
-// this was modified to create a single namespace when a client gets notes via the student route
+io.on('connection', socket => {
+    const id = socket.handshake.headers.referer.split('/')[4]
+    const agenda = socket.handshake.headers.referer.split('/')[3]
+    if(id && id.length === 24 && agenda == 'agendas') {
+        socket.join(`${id}`)   
+    }
+})
 
 module.exports = io

@@ -1,13 +1,13 @@
 import React from 'react';
-import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom'
+import {BrowserRouter, Route} from 'react-router-dom'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import {connect} from 'react-redux'
 
 // component imports
-import Header from './components/Header'
-import StudentLanding from './components/StudentLanding'
+import Header from './components/statics/Header'
+import StudentLanding from './components/studentView/StudentLanding'
 import AdminLanding from './components/AdminLanding'
-import StudentNoteList from './components/StudentNoteList'
+import StudentNoteList from './components/studentView/StudentNoteList'
 
 function App(props) {
   return (

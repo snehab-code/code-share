@@ -2,12 +2,14 @@ import React from 'react'
 import Note from './Note'
 import Button from '@material-ui/core/Button'
 import { connect } from 'react-redux'
-import { startDeleteNote, startPutNote } from '../../actions/notes'
+import { startDeleteNote} from '../../actions/notes'
 import {Link} from 'react-router-dom'
 
 // styles for Modal
 
 function NoteList(props){
+
+    console.log(props)
 
     const handleRemove = (id) => {
         props.dispatch(startDeleteNote(id))
@@ -16,11 +18,13 @@ function NoteList(props){
     return (
         <div style={{display:'flex', flexDirection:"column", alignItems:"center", width:"100%"}}>
 
-            <h3 style={{margin:20}}>{props.batch && props.batch.name} - <span style={{color: "#f50057"}}>{props.agenda && props.agenda.otp}</span></h3>
-            
+            <h4 style={{marginBottom:10, marginTop:10}}><Link to="/code-admin/batches" style={{textDecoration: "none", color:"rgba(0, 0, 0, 0.7)"}} >Batches</Link> / <Link style={{textDecoration: "none", color:"rgba(0, 0, 0, 0.7)"}} to={`/code-admin/batches/${props.match.params.batchId}/agendas`}>
+            {props.batch && props.batch.name}</Link> / <span style={{color: "#f50057"}}>{props.agenda && props.agenda.otp}</span></h4>
+
             <Link style={{textDecoration: "none"}} to={`/code-admin/batches/${props.match.params.batchId}/agendas/${props.match.params.agendaId}/notes/add`}>
                 <Button variant="outlined" size="small" color="secondary">Add Notes</Button>
             </Link>
+            
             <br/>
             
             {
@@ -37,10 +41,11 @@ function NoteList(props){
 }
 
 const mapStateToProps = (state, props) => {
+    console.log(props)
     return {
-        batch: state.batches.find(batch => batch._id == props.match.params.batchId),
-        agenda: state.agendas.find(agenda => agenda._id == props.match.params.agendaId),
-        notes: state.notes.filter(note => note.agenda._id == props.match.params.agendaId)
+        batch: state.batches.find(batch => batch._id === props.match.params.batchId),
+        agenda: state.agendas.find(agenda => agenda._id === props.match.params.agendaId),
+        notes: state.notes.filter(note => note.agenda && note.agenda._id === props.match.params.agendaId)
     }
 }
 

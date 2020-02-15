@@ -37,7 +37,7 @@ module.exports.list = (req, res) => {
 module.exports.listNotes = (req,res) => {
     const id = req.params.id
     if (req.admin) {
-        Note.find({'agenda': id}).sort({createdAt: -1})
+        Note.find({'agenda': id}).populate('tags', ['_id', 'name']).populate('agenda', ['_id', 'batch']).sort({createdAt: -1})
             .then(notes => {
                 res.json(notes)
             })
@@ -51,7 +51,7 @@ module.exports.listNotes = (req,res) => {
                 const date = Date.now()
                 // always available
                 if (agenda.isAvailable) {
-                    Note.find({'agenda': id}).sort({createdAt: -1})
+                    Note.find({'agenda': id}).populate('tags', ['_id', 'name']).populate('agenda', ['_id', 'batch']).sort({createdAt: -1})
                         .then(notes => {
                             res.json(notes)
                         })
@@ -63,7 +63,7 @@ module.exports.listNotes = (req,res) => {
                     res.json({notice: "notes for this agenda are not available"})
                 // all good
                 } else {
-                    Note.find({'agenda': id}).sort({createdAt: -1})
+                    Note.find({'agenda': id}).populate('tags', ['_id', 'name']).populate('agenda', ['_id', 'batch']).sort({createdAt: -1})
                         .then(notes => {
                             res.json(notes)
                         })

@@ -2,7 +2,6 @@
 const jwt = require('jsonwebtoken')
 
 module.exports.getAccess = (req,res) => {
-    console.log('i ran')
     const secretKey = req.body.secret
     if (secretKey == process.env.ADMIN_PASS) {
         jwt.sign({

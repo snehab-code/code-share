@@ -1,7 +1,5 @@
 import React from 'react'
 
-// Ask sir - should there be a link to all agendas that have been set to isVisible = true?
-
 class OtpForm extends React.Component{
     constructor() {
         super()

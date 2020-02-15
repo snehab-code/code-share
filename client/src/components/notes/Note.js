@@ -38,7 +38,7 @@ class Note extends React.Component {
                         <div style={{float: "right", marginRight:"-10px", marginTop:"auto"}}>
                             {this.state.editAccess && 
                             <Link to={{
-                                pathname: `/code-admin/batches/${this.props.match.params.batchId}/agendas/${this.props.match.params.batchId}/notes/edit`,
+                                pathname: `/code-admin/batches/${this.props.match.params.batchId}/agendas/${this.props.match.params.agendaId}/notes/edit`,
                                 state: {
                                     title: this.props.title,
                                     code: this.props.code,
@@ -61,6 +61,19 @@ class Note extends React.Component {
                         <span style={{fontSize:"1.2em", color:"#f50057"}}>{this.state.title}</span>
                         
                         <Markup content={this.state.description}/>
+
+                        <span style={{fontSize:"0.8em", color:"rgba(0, 0, 0, 0.7)"}}>Tags: {
+                            this.props.tags.map((tag, i) => {
+                                if (tag) {
+                                    if (i < this.props.tags.length - 1) {
+                                        return `${tag.name}, `
+                                    } else {
+                                        return `${tag.name}.`
+                                    }
+                                }
+                            })
+                        } </span> 
+
                     </div>
                     <div>
                         
