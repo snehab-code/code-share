@@ -16,7 +16,7 @@ export const startGetStudentAgenda = (otp) => {
                 dispatch(setStudentAgenda(agenda))
             })
             .catch(err => {
-                console.log('startGetStudentAgendas err', err)
+                // console.log('startGetStudentAgendas err', err)
             })
     }
 }

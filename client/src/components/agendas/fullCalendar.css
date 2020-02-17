@@ -212,14 +212,16 @@ hr.fc-divider {
   /* normalize cross-browser */ }
 
 .fc th {
-  text-align: center; }
+  text-align: center;
+  background-color: white; }
 
 .fc th,
 .fc td {
   border-style: solid;
   border-width: 1px;
   padding: 0;
-  vertical-align: top; }
+  vertical-align: top; 
+  background-color: white;}
 
 .fc td.fc-today {
   border-style: double;

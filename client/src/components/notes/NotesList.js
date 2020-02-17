@@ -9,8 +9,6 @@ import {Link} from 'react-router-dom'
 
 function NoteList(props){
 
-    console.log(props)
-
     const handleRemove = (id) => {
         props.dispatch(startDeleteNote(id))
     }
@@ -41,7 +39,6 @@ function NoteList(props){
 }
 
 const mapStateToProps = (state, props) => {
-    console.log(props)
     return {
         batch: state.batches.find(batch => batch._id === props.match.params.batchId),
         agenda: state.agendas.find(agenda => agenda._id === props.match.params.agendaId),

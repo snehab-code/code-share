@@ -11,13 +11,10 @@ class BatchShow extends React.Component {
 
     render() {
         return (
-            <>
+            <div style={{display:'flex', flexDirection:"column", alignItems:"center", width:"80%"}}>
                 <h4 style={{marginTop:10, marginBottom:10}}><Link style={{textDecoration: "none", color:"rgba(0, 0, 0, 0.7)"}} to="/code-admin/batches">Batches</Link> / <span style={{color: "#f50057"}}>{this.props.batch && this.props.batch.name}</span></h4>
-                {/* <div>
-                    <Link to={`/code-admin/batches/${this.props.match.params.batchId}/edit`} style={{textDecorate:'none'}}><Button size="small" color="secondary">Edit Batch</Button></Link>
-                </div> */}
                 {this.props.batch ? <AgendaList/> : "No such batch"}
-            </>
+            </div>
         )
     }
 

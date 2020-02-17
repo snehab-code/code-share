@@ -1,22 +1,22 @@
 import React from 'react'
-import {Link, withRouter} from 'react-router-dom'
-
-// fullCalendar
+import {withRouter} from 'react-router-dom'
+import {connect} from 'react-redux'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from "@fullcalendar/interaction"
 import './fullCalendar.css'
-
-// modal
 import Modal from 'react-modal'
-
-// components
+import CheckIcon from '@material-ui/icons/Check';
+import ClearIcon from '@material-ui/icons/Clear';
+import DataTable, {createTheme} from 'react-data-table-component'
+import moment from 'moment'
 import AgendaAdd from './AgendaAdd'
 import AgendaShow from './AgendaShow'
 import {startDeleteAgenda} from '../../actions/agendas'
-
+import IconButton from '@material-ui/core/IconButton'
 import Button from '@material-ui/core/Button'
-import {connect} from 'react-redux'
+import Add from '@material-ui/icons/Add'
+import Swal from 'sweetalert2'
 
 // styles for Modal
 const customStyles = {
@@ -41,7 +41,46 @@ class AgendaList extends React.Component{
             newDate: null,
             modalIsOpen: false,
             agendaShow: null,
-            add: false
+            add: false,
+            showList: true,
+            columns: [
+                {
+                    name: 'Title',
+                    selector: 'title',
+                    sortable: true,
+                    grow: 4,
+                    cell: row => `${row.title.title}`,
+                },
+                {
+                    name: 'Description',
+                    selector: 'description',
+                    grow: 2
+                },
+                {
+                    name: 'Date',
+                    selector: 'agendaDate',
+                    sortable: true,
+                    cell: row => `${moment(row.agendaDate).format('ddd, MMM DD')}`,
+                    grow: 2
+                },
+                {
+                    name: 'OTP',
+                    selector: 'otp',
+                    center: true
+                },
+                {
+                    name: 'Available',
+                    selector: 'isAvailable',
+                    cell: row => row.isAvailable ? <CheckIcon size="small" color="secondary" /> : <ClearIcon size="small" />,
+                    center: true
+                },
+                {
+                    name: 'Viewable',
+                    selector: 'isViewable',
+                    cell: row => row.isViewable ? <CheckIcon size="small" color="secondary" /> : <ClearIcon size="small" />,
+                    center: true
+                }
+            ]
         }
     }
 
@@ -60,8 +99,33 @@ class AgendaList extends React.Component{
     }
 
     handleRemove = (id) => {
-        this.props.dispatch(startDeleteAgenda(id))
-        this.closeModal()
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This will delete all notes linked to this agenda",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+          }).then((result) => {
+            if (result.value) {
+                this.props.dispatch(startDeleteAgenda(id))
+                this.closeModal()
+            }
+          })
+    }
+
+    handleRowClicked = (row) => {
+        const agendaId = row.title.id
+        this.setState({agendaShow: agendaId, modalIsOpen: true})
+    }
+
+    handleView = (val) => {
+        this.setState({showList: val})
+    }
+
+    handleAdd = () => {
+        this.setState({modalIsOpen: true, add: true})
     }
 
     closeModal = () => {
@@ -69,9 +133,8 @@ class AgendaList extends React.Component{
     }
 
     render() {
-        return (
-            <div style={{display:"flex", flexDirection:"column", alignItems:"center"}}>
-
+        return(
+            <>
                 <Modal
                     isOpen={this.state.modalIsOpen}
                     // onAfterOpen={this.afterOpenModal}
@@ -88,31 +151,51 @@ class AgendaList extends React.Component{
                         this.state.add && <AgendaAdd agendaDate = {this.state.newDate} batchId = {this.props.match.params.batchId} closeModal = {this.closeModal} handleEditAdd={this.handleEditAdd}/>
                     }
                 </Modal>
-                
-
-                <div style={{width:"50%", zIndex: 0}}>      
-                    <FullCalendar
-                        defaultView="dayGridMonth"
-                        header={{
-                        left: "prev,next today",
-                        center: "",
-                        right: "title"
-                        }}
-                        buttonText = {{
-                            today: 'today',
-                            prev: '<',
-                            next: '>'
-                        }}
-                        plugins={[dayGridPlugin, interactionPlugin]}
-                        events={this.props.calendarEvents}
-                        dateClick={this.handleDateClick}
-                        eventClick={this.handleEventClick}
+                {
+                    this.state.showList ?
+                    <>
+                    <Button style={{marginTop:"-5px"}} size="small" color="secondary" onClick={() => this.handleView(false)}>Calendar View</Button>
+                    <DataTable
+                        title="Agendas"
+                        highlightOnHover
+                        actions={(
+                            <IconButton
+                            color="secondary"
+                            onClick={this.handleAdd}
+                          >
+                            <Add />
+                          </IconButton>
+                        )}
+                        columns={this.state.columns}
+                        data={this.props.listAgendas}
+                        onRowClicked={this.handleRowClicked}
                     />
-                </div>
-                
-                {/* <Link style={{textDecoration:"none"}} to="/code-admin/batches"><Button size="small" color="secondary">Back</Button ></Link> */}
-                
-            </div>
+                    </>
+                    :
+                    <>
+                    <Button style={{marginTop:"-5px"}} size="small" color="secondary" onClick={() => this.handleView(true)}>List View</Button>
+                    <div style={{width:"60%", minWidth:300, zIndex:0}}>      
+                        <FullCalendar
+                            defaultView="dayGridMonth"
+                            header={{
+                            left: "prev,next today",
+                            center: "",
+                            right: "title"
+                            }}
+                            buttonText = {{
+                                today: 'today',
+                                prev: '<',
+                                next: '>'
+                            }}
+                            plugins={[dayGridPlugin, interactionPlugin]}
+                            events={this.props.calendarEvents}
+                            dateClick={this.handleDateClick}
+                            eventClick={this.handleEventClick}
+                        />
+                    </div>
+                    </>
+                }
+            </>
         )
     }
 }
@@ -120,6 +203,16 @@ class AgendaList extends React.Component{
 const mapStateToProps = (state, props) => {
     return {
         agendas: state.agendas.filter(agenda=> agenda.batch === props.match.params.batchId),
+        listAgendas: state.agendas.filter(agenda => agenda.batch === props.match.params.batchId).map(agenda=> {
+            return {
+                title: {title: agenda.title, id: agenda._id},
+                description: agenda.description,
+                agendaDate: agenda.agendaDate,
+                isAvailable: agenda.isAvailable,
+                isViewable: moment()._d > moment(agenda.viewMinRange)._d && moment()._d < moment(agenda.viewMaxRange)._d ? true : false,
+                otp: agenda.otp
+            }
+        }),
         calendarEvents: state.agendas.filter(agenda=> agenda.batch === props.match.params.batchId).map(agenda=> {
             return {
                 title: agenda.title,

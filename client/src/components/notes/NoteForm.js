@@ -36,14 +36,16 @@ class NoteForm extends React.Component {
 
     handleSubmit  = (e) => {
         e.preventDefault()
-        const formData = {
-            title : this.state.title,
-            description : this.state.description,
-            code : this.state.code,
-            agenda : this.props.agenda,
-            tags : this.state.noteTags
-        }
-        this.props.handleSubmit(formData, this.state.noteId)        
+        if (e.target.id === "noteForm") {
+            const formData = {
+                title : this.state.title,
+                description : this.state.description,
+                code : this.state.code,
+                agenda : this.props.agenda,
+                tags : this.state.noteTags
+            }
+            this.props.handleSubmit(formData, this.state.noteId)    
+        }    
     }
     
 	changeMode=(e) =>{
@@ -53,8 +55,7 @@ class NoteForm extends React.Component {
 		});
     }
     
-    handleTagChange = (newValue, actionMeta) => {
-            console.log(`action: ${actionMeta.action}`);
+    handleTagChange = (newValue) => {
             if (newValue) {
                 this.setState({noteTags: newValue})
             } else {
@@ -63,9 +64,8 @@ class NoteForm extends React.Component {
     }
 	
     render(){
-        console.log(this.state.noteTags, this.props.tags)
         return (
-            <form onSubmit = {this.handleSubmit}>
+            <form id="noteForm" onSubmit = {this.handleSubmit} style={{border:"2px solid white", borderRadius:12, padding:20, width:"80%", maxWidth:"600px"}}>
                 <label htmlFor = "title"> Title </label>
                 <input type = "text" value = {this.state.title} 
                     onChange ={this.handleChange} 
@@ -112,6 +112,7 @@ class NoteForm extends React.Component {
                     autoFocus={true} 
 
                     />
+                <br/>
                 <CreatableSelect
                     isMulti
                     cacheOptions

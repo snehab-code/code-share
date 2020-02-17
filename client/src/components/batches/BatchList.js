@@ -18,6 +18,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Button from '@material-ui/core/Button'
 
 import Modal from 'react-modal'
+import Swal from 'sweetalert2'
 
 // styles for Modal
 const customStyles = {
@@ -55,7 +56,20 @@ class BatchShow extends React.Component {
     }
 
     handleDelete = (id) => {
-        this.props.dispatch(startDeleteBatch(id))
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "This will delete all agendas and notes linked to this batch",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+          }).then((result) => {
+            if (result.value) {
+              this.props.dispatch(startDeleteBatch(id))
+            }
+          })
+
     }
 
     handleEdit = (id) => {

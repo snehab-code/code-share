@@ -1,4 +1,5 @@
 import axios from '../config/axios'
+import Swal from 'sweetalert2'
 
 const setAgendas = (agendas) => {
     return {type: 'SET_AGENDAS', payload: agendas}
@@ -24,7 +25,7 @@ export const startGetAgendas = () => {
                 dispatch(setAgendas(agendas))
             })
             .catch(err => {
-                console.log('startgetagendas err', err)
+                // console.log('startgetagendas err', err)
             })
     }
 }
@@ -38,7 +39,12 @@ export const startPostAgenda = (formData) => {
                 // dispatch()
             })
             .catch(err => {
-                console.log('startPostAgenda err', err)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'There was an error while posting your agenda',
+                    footer: 'Please try again'
+                  })
             })
     }
 }
@@ -51,7 +57,12 @@ export const startDeleteAgenda = (id) => {
                 dispatch(removeAgenda(id))
             })
             .catch(err => {
-                console.log('startDeleteAgenda err', err)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'There was an error while posting your agenda',
+                    footer: 'Please try again'
+                  })
             })
     }
 }
@@ -65,9 +76,12 @@ export const startPutAgenda = (id, formData) => {
                 dispatch(updateAgenda(id, agenda))
             })
             .catch(err => {
-                console.log(err => {
-                    console.log('update agenda error', err)
-                })
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'There was an error while updating your agenda',
+                    footer: 'Please try again'
+                  })
             })
     }
 }

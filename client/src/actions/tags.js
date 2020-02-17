@@ -9,7 +9,6 @@ const setTags = (tags) => {
 }
 
 export const addTags = (tags) => {
-    console.log(tags, 'tags')
     return {type: 'ADD_TAGS', payload: tags}
 }
 
@@ -29,7 +28,7 @@ export const startGetTags = () => {
                 dispatch(setTags(tags))
             })
             .catch(err => {
-                console.log('startGetTags err', err)
+                // console.log('startGetTags err', err)
             })
     }
 }
@@ -55,13 +54,12 @@ export const startDeleteTag = (id) => {
                 dispatch(removeTag(id))
             })
             .catch(err => {
-                console.log('startDeleteTag err', err)
+                // console.log('startDeleteTag err', err)
             })
     }
 }
 
 export const startPutTag = (id, formData) => {
-    console.log(formData)
     return (dispatch) => {
         axios.put(`/tags/${id}`, formData)
             .then(response=>{
@@ -70,7 +68,7 @@ export const startPutTag = (id, formData) => {
                 dispatch(updateTag(id, tag))
             })
             .catch(err => {
-                console.log('update tag error', err)
+                // console.log('update tag error', err)
             })
     }
 }

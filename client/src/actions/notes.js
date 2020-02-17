@@ -1,5 +1,6 @@
 import axios from '../config/axios'
 import {addTags} from './tags'
+import Swal from 'sweetalert2'
 
 const setNotes = (notes) => {
     return {type: 'SET_NOTES', payload: notes}
@@ -25,7 +26,7 @@ export const startGetNotes = () => {
                 dispatch(setNotes(notes))
             })
             .catch(err => {
-                console.log('startGetNotes err', err)
+                // console.log('startGetNotes err', err)
             })
     }
 }
@@ -69,11 +70,17 @@ export const startPostNote = (formData, history, batchId, agendaId) => {
                     history.push(`/code-admin/batches/${batchId}/agendas/${agendaId}/notes`)
                 })
                 .catch(err => {
-                    console.log('startPostNote err', err)
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'There was an error while posting your note',
+                        footer: 'Please try again'
+                      })
+                    history.push(`/code-admin/batches/${batchId}/agendas/${agendaId}/notes`)
                 })
             })
             .catch(err => {
-                console.log('tag posting error')
+                // console.log('tag posting error')
             })
        
     }
@@ -87,7 +94,12 @@ export const startDeleteNote = (id) => {
                 dispatch(removeNote(id))
             })
             .catch(err => {
-                console.log('startDeleteNote err', err)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'There was an error while deleting your note',
+                    footer: 'Please try again'
+                  })
             })
     }
 }
@@ -130,11 +142,23 @@ export const startPutNote = (id, formData, history, batchId, agendaId) => {
                         history.push(`/code-admin/batches/${batchId}/agendas/${agendaId}/notes`)
                     })
                     .catch(err => {
-                        console.log('update note error', err)
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'There was an error while updating your note',
+                            footer: 'Please try again'
+                          })
+                        history.push(`/code-admin/batches/${batchId}/agendas/${agendaId}/notes`)
                     })
             })
             .catch(err => {
-                console.log('update note, tag post error', err)
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'There was an error while posting your note tags',
+                    footer: 'Please try again'
+                  })
+                history.push(`/code-admin/batches/${batchId}/agendas/${agendaId}/notes`)
             })
     }
 }

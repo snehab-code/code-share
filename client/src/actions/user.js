@@ -30,7 +30,7 @@ export const startUserLogin = (formData, history) => {
                 }
             })
             .catch(err => {
-                console.log(err)
+                // console.log(err)
             })
     }
 }

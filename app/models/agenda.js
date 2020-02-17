@@ -9,7 +9,7 @@ const agendaSchema = new Schema({
     },
     description: {
         type: String,
-    }, 
+    },
     batch: {
         type: Schema.Types.ObjectId,
         required: true
@@ -34,6 +34,10 @@ const agendaSchema = new Schema({
     isAvailable: {
         type: Boolean,
         default: false
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now()
     }
 })
 

@@ -20,7 +20,7 @@ export const startGetStudentNotes = (agendaId) => {
                 dispatch(setStudentNotes(notes))
             })
             .catch(err => {
-                console.log('startGetStudentNotes err', err)
+                // console.log('startGetStudentNotes err', err)
             })
     }
 }
