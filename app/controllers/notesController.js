@@ -1,14 +1,13 @@
 const Note = require('../../app/models/note')
+const Tag = require('../../app/models/tag')
 // const webpush = require('web-push')
 // const Subscriber = require('../models/subscriber')
 
 
 module.exports.list = (req, res) => {
-        Note.find().populate('tags', ['_id', 'name']).populate('agenda', ['_id', 'batch']).sort({createdAt: -1})
+    Note.find().populate('tags', ['_id', 'name']).populate('agenda', ['_id', 'batch']).sort({createdAt: -1})
         .then((notes) => {
-            
             res.json(notes)
-
         })
         .catch((err) => {
             res.json(err)
@@ -31,14 +30,30 @@ module.exports.show = (req, res) => {
         })
 }
 
-
 module.exports.create = (req, res) => {
     const body = req.body
     const note = new Note(body)
     note.save()
         .then(note => {
-            const io = require('../../config/socket')
-            io.sockets.in(`${note.agenda}`).emit('added', note)
+            const noteMessage = {...note._doc}
+            let newTags = []
+            let count = 0
+            noteMessage.tags.forEach(tagId => {
+                Tag.findOne({'_id': tagId})
+                    .then(tag => {
+                        const tagObject = {
+                            _id: tag._id,
+                            name: tag.name
+                        }
+                        newTags.push(tagObject)
+                        count++
+                        if (count == noteMessage.tags.length) {
+                            noteMessage.tags = newTags
+                            const io = require('../../config/socket')
+                            io.sockets.in(`${note.agenda}`).emit('added', noteMessage)
+                        }
+                    })
+            })
             res.json(note)
         })
         .catch(err => {
