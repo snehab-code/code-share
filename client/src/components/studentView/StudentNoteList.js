@@ -1,8 +1,7 @@
 import React from 'react'
 import Note from '../notes/Note'
 import { connect } from 'react-redux'
-import {startGetStudentNotes} from '../../actions/studentNotes'
-import {addStudentNote} from '../../actions/studentNotes'
+import {startGetStudentNotes, removeStudentNote, addStudentNote} from '../../actions/studentNotes'
 import io from 'socket.io-client'
 
 class StudentNoteList extends React.Component{
@@ -10,8 +9,7 @@ class StudentNoteList extends React.Component{
     componentDidMount() {
         // const socket = io('http://localhost:3010')
         const socket = io(window.location.origin)
-        socket.on('message', (message) => {
-            console.log(message)
+        socket.on('added', (message) => {
             if (message._id) {
                 const newNote = message
                 if (!this.props.notes.find(note=>note._id === newNote._id)) {
@@ -19,11 +17,15 @@ class StudentNoteList extends React.Component{
                 }
             }
         })
+        socket.on('deleted', (message) => {
+            if (this.props.notes.find(note => note._id === message)) {
+                this.props.dispatch(removeStudentNote(message))
+            }
+        })
         this.props.agenda._id ? this.props.dispatch(startGetStudentNotes(this.props.agenda._id)) : this.props.history.push('/')
     }
 
     render() {
-        console.log(this.props.notes)
         return (
             <div style={{display:'flex', flexDirection:"column", alignItems:"center", width:"100%"}}>
                 <h3 style={{marginBottom:0}}>{this.props.agenda.title} - <span style={{color: "#f50057"}}>{this.props.agenda && this.props.agenda.otp}</span></h3>

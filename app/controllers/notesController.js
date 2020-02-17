@@ -4,7 +4,6 @@ const Note = require('../../app/models/note')
 
 
 module.exports.list = (req, res) => {
-
         Note.find().populate('tags', ['_id', 'name']).populate('agenda', ['_id', 'batch']).sort({createdAt: -1})
         .then((notes) => {
             
@@ -15,7 +14,6 @@ module.exports.list = (req, res) => {
             res.json(err)
         })
     // }
-   
 }
 
 module.exports.show = (req, res) => {
@@ -40,7 +38,7 @@ module.exports.create = (req, res) => {
     note.save()
         .then(note => {
             const io = require('../../config/socket')
-            io.sockets.in(`${note.agenda}`).emit('message', note)
+            io.sockets.in(`${note.agenda}`).emit('added', note)
             res.json(note)
         })
         .catch(err => {
@@ -71,6 +69,8 @@ module.exports.destroy = (req, res) => {
     Note.findByIdAndDelete(id)
         .then(note => {
             if(note) {
+                const io = require('../../config/socket')
+                io.sockets.in(`${note.agenda}`).emit('deleted', note._id)
                 res.json(note)
             } else {
                 res.json({})
