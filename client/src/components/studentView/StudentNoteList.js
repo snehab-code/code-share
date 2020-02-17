@@ -11,6 +11,7 @@ class StudentNoteList extends React.Component{
         // const socket = io('http://localhost:3010')
         const socket = io(window.location.origin)
         socket.on('message', (message) => {
+            console.log(message)
             if (message._id) {
                 const newNote = message
                 if (!this.props.notes.find(note=>note._id === newNote._id)) {
@@ -22,6 +23,7 @@ class StudentNoteList extends React.Component{
     }
 
     render() {
+        console.log(this.props.notes)
         return (
             <div style={{display:'flex', flexDirection:"column", alignItems:"center", width:"100%"}}>
                 <h3 style={{marginBottom:0}}>{this.props.agenda.title} - <span style={{color: "#f50057"}}>{this.props.agenda && this.props.agenda.otp}</span></h3>
