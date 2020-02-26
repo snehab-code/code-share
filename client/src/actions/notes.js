@@ -26,7 +26,9 @@ export const startGetNotes = () => {
                 dispatch(setNotes(notes))
             })
             .catch(err => {
-                // console.log('startGetNotes err', err)
+                if (err.response.status==401) {
+                    dispatch({type: 'LOGOUT'})
+                }
             })
     }
 }
@@ -80,7 +82,9 @@ export const startPostNote = (formData, history, batchId, agendaId) => {
                 })
             })
             .catch(err => {
-                // console.log('tag posting error')
+                if (err.response.status==401) {
+                    dispatch({type: 'LOGOUT'})
+                }
             })
        
     }
@@ -100,6 +104,9 @@ export const startDeleteNote = (id) => {
                     text: 'There was an error while deleting your note',
                     footer: 'Please try again'
                   })
+                if (err.response.status==401) {
+                    dispatch({type: 'LOGOUT'})
+                }
             })
     }
 }
@@ -148,7 +155,11 @@ export const startPutNote = (id, formData, history, batchId, agendaId) => {
                             text: 'There was an error while updating your note',
                             footer: 'Please try again'
                           })
-                        history.push(`/code-admin/batches/${batchId}/agendas/${agendaId}/notes`)
+                        if (err.response.status==401) {
+                            dispatch({type: 'LOGOUT'})
+                        } else {
+                            history.push(`/code-admin/batches/${batchId}/agendas/${agendaId}/notes`)
+                        }
                     })
             })
             .catch(err => {
@@ -158,7 +169,12 @@ export const startPutNote = (id, formData, history, batchId, agendaId) => {
                     text: 'There was an error while posting your note tags',
                     footer: 'Please try again'
                   })
-                history.push(`/code-admin/batches/${batchId}/agendas/${agendaId}/notes`)
+                
+                if (err.response.status==401) {
+                    dispatch({type: 'LOGOUT'})
+                } else {
+                    history.push(`/code-admin/batches/${batchId}/agendas/${agendaId}/notes`)
+                }
             })
     }
 }

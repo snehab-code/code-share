@@ -25,7 +25,9 @@ export const startGetBatches = () => {
                 dispatch(setBatches(batches))
             })
             .catch(err => {
-                // console.log('startgetnbatches err')
+                if (err.response.status==401) {
+                    dispatch({type: 'LOGOUT'})
+                }
             })
     }
 }
@@ -36,7 +38,6 @@ export const startPostBatch = (formData) => {
             .then(response => {
                 const batch = response.data
                 dispatch(addBatch(batch))
-                // dispatch()
             })
             .catch(err => {
                 Swal.fire({
@@ -45,6 +46,9 @@ export const startPostBatch = (formData) => {
                     text: 'There was an error while posting your batch',
                     footer: 'Please try again'
                   })
+                if (err.response.status==401) {
+                    dispatch({type: 'LOGOUT'})
+                }
             })
     }
 }
@@ -63,6 +67,9 @@ export const startDeleteBatch = (id) => {
                     text: 'There was an error while deleting your batch',
                     footer: 'Please try again'
                   })
+                if (err.response.status==401) {
+                    dispatch({type: 'LOGOUT'})
+                }
             })
     }
 }
@@ -82,6 +89,9 @@ export const startPutBatch = (formData, id) => {
                     text: 'There was an error while updating your batch',
                     footer: 'Please try again'
                   })
+                if (err.response.status==401) {
+                    dispatch({type: 'LOGOUT'})
+                }
             })
     }
 }

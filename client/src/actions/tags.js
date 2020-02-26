@@ -28,7 +28,9 @@ export const startGetTags = () => {
                 dispatch(setTags(tags))
             })
             .catch(err => {
-                // console.log('startGetTags err', err)
+                if (err.response.status==401) {
+                    dispatch({type: 'LOGOUT'})
+                }
             })
     }
 }
@@ -54,7 +56,9 @@ export const startDeleteTag = (id) => {
                 dispatch(removeTag(id))
             })
             .catch(err => {
-                // console.log('startDeleteTag err', err)
+                if (err.response.status==401) {
+                    dispatch({type: 'LOGOUT'})
+                }
             })
     }
 }
@@ -68,7 +72,9 @@ export const startPutTag = (id, formData) => {
                 dispatch(updateTag(id, tag))
             })
             .catch(err => {
-                // console.log('update tag error', err)
+                if (err.response.status==401) {
+                    dispatch({type: 'LOGOUT'})
+                }
             })
     }
 }

@@ -54,6 +54,12 @@ module.exports.create = (req, res) => {
                         }
                     })
             })
+
+            if (noteMessage.tags.length == 0) {
+                const io = require('../../config/socket')
+                io.sockets.in(`${note.agenda}`).emit('added', noteMessage)
+            }
+
             res.json(note)
         })
         .catch(err => {

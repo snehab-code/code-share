@@ -49,7 +49,7 @@ class BatchForm extends React.Component{
                 </FormControlLabel>
                 <TextField margin="dense" required={true} size="small" name="name" label="name" value={this.state.name} onChange={this.handleChange} style={{width: 300}}/>
 
-                <Button type="submit" size="small" color="secondary">Edit</Button>
+                <Button type="submit" size="small" color="secondary">Submit</Button>
 
             </form>
         )

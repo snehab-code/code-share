@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button'
 import { connect } from 'react-redux'
 import { startDeleteNote} from '../../actions/notes'
 import {Link} from 'react-router-dom'
+import './codemirror-mod.css'
 
 // styles for Modal
 

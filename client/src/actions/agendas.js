@@ -25,7 +25,9 @@ export const startGetAgendas = () => {
                 dispatch(setAgendas(agendas))
             })
             .catch(err => {
-                // console.log('startgetagendas err', err)
+                if (err.response.status==401) {
+                    dispatch({type: 'LOGOUT'})
+                }
             })
     }
 }
@@ -45,6 +47,9 @@ export const startPostAgenda = (formData) => {
                     text: 'There was an error while posting your agenda',
                     footer: 'Please try again'
                   })
+                if (err.response.status==401) {
+                    dispatch({type: 'LOGOUT'})
+                }
             })
     }
 }
@@ -63,6 +68,9 @@ export const startDeleteAgenda = (id) => {
                     text: 'There was an error while posting your agenda',
                     footer: 'Please try again'
                   })
+                if (err.response.status==401) {
+                    dispatch({type: 'LOGOUT'})
+                }
             })
     }
 }
@@ -82,6 +90,9 @@ export const startPutAgenda = (id, formData) => {
                     text: 'There was an error while updating your agenda',
                     footer: 'Please try again'
                   })
+                if (err.response.status==401) {
+                    dispatch({type: 'LOGOUT'})
+                }
             })
     }
 }

@@ -10,6 +10,7 @@ import {Controlled as CodeMirror} from 'react-codemirror2'
 import { Markup } from 'interweave'
 import {withRouter, Link} from 'react-router-dom'
 
+import './codemirror-mod.css'
 import 'codemirror/theme/neo.css'
 import 'codemirror/mode/javascript/javascript.js'
 

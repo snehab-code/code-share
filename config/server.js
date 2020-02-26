@@ -9,6 +9,6 @@ const server = app.listen(port, () => {
     app.get("*",(req,res) => { 
     res.sendFile(path.join(dirPath + "/client/build/index.html")) 
     }) 
-}) 
+})
 
 module.exports = server

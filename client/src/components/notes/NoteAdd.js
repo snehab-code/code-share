@@ -9,7 +9,7 @@ function NoteAdd(props){
     const handleSubmit = (formData) => {
         props.dispatch(startPostNote(formData, props.history, props.match.params.batchId, props.match.params.agendaId))
     }
-
+    console.log('note add rendered')
     return (
         <div style={{display:"flex", flexDirection:"column", alignItems:"center", width:"100%"}}>
             <h4 style={{marginBottom:10, marginTop:10}}><Link to="/code-admin/batches" style={{textDecoration: "none", color:"rgba(0, 0, 0, 0.7)"}} >Batches</Link> / <Link style={{textDecoration: "none", color:"rgba(0, 0, 0, 0.7)"}} to={`/code-admin/batches/${props.match.params.batchId}/agendas`}>

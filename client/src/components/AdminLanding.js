@@ -14,10 +14,13 @@ function AdminLanding(props) {
     return(
         <>
             {
-                props.isLoggedIn == false && <Redirect to="/code-admin" />
+                props.isLoggedIn == false && <Redirect to={{pathname: "/code-admin", state: {
+                    authRedirect: true
+                }}} />
             }
             {
-                props.isLoggedIn === false && <AdminForm />
+
+                (props.isLoggedIn === false || props.location && props.location.state && props.location.state.authRedirect) && <AdminForm />
             }
             {
                 props.isLoggedIn && props.location.pathname==="/code-admin" && <Redirect to="/code-admin/batches" />
@@ -45,8 +48,8 @@ function AdminLanding(props) {
 
 const mapStateToProps = (state) => {
     return {
-        isLoggedIn: state.user.isLoggedIn
-    }
+            isLoggedIn: state.user.isLoggedIn
+        }
 }
 
 export default connect(mapStateToProps)(AdminLanding)

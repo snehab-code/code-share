@@ -7,9 +7,13 @@ import io from 'socket.io-client'
 class StudentNoteList extends React.Component{
 
     componentDidMount() {
-        // const socket = io('http://localhost:3010')
-        const socket = io(window.location.origin)
+        const socket = io('http://localhost:3010')
+        socket.on('message', (message) => {
+            console.log(message)
+        })
+        // const socket = io(window.location.origin)
         socket.on('added', (message) => {
+            console.log(message)
             if (message._id) {
                 const newNote = message
                 if (!this.props.notes.find(note=>note._id === newNote._id)) {
@@ -18,6 +22,7 @@ class StudentNoteList extends React.Component{
             }
         })
         socket.on('deleted', (message) => {
+            console.log(message)
             if (this.props.notes.find(note => note._id === message)) {
                 this.props.dispatch(removeStudentNote(message))
             }

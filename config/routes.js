@@ -3,8 +3,6 @@ const router = express.Router()
 const confirmAccess = require('../app/middlewares/confirmAccess')
 const conditionalAccess = require('../app/middlewares/conditionalAccess')
 
-module.exports = router
-
 const batchesController = require('../app/controllers/batchesController')
 const agendasController = require('../app/controllers/agendasController')
 const notesController = require('../app/controllers/notesController')

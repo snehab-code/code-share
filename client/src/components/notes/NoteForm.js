@@ -12,6 +12,7 @@ import 'codemirror/theme/neo.css';
 import 'codemirror/mode/htmlmixed/htmlmixed';
 import 'codemirror/mode/css/css';
 import 'codemirror/mode/javascript/javascript';
+import './codemirror-create-mod.css'
 
 class NoteForm extends React.Component {
     
@@ -78,9 +79,9 @@ class NoteForm extends React.Component {
                         editor={ ClassicEditor }
                         data={this.state.description}
                         onChange={ ( event, editor ) => {
-                            const data = editor.getData();
+                            const data = editor.getData()
                             this.setState({description:data})
-                        } }
+                        }}
                     />
                 <div style={{ marginTop: 10 }}>
                 <label htmlFor = "code"> Select mode </label>
