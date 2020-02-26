@@ -1,7 +1,5 @@
 const Note = require('../../app/models/note')
 const Tag = require('../../app/models/tag')
-// const webpush = require('web-push')
-// const Subscriber = require('../models/subscriber')
 
 
 module.exports.list = (req, res) => {
