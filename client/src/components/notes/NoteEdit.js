@@ -18,7 +18,7 @@ function NoteEdit(props){
             handleSubmit = {handleSubmit}
             code = {props.location.state.code}
             title = {props.location.state.title}
-            description = {props.location.state.title}
+            description = {props.location.state.description}
             tags = {props.location.state.tags}
             noteId = {props.location.state.noteId}
         />}

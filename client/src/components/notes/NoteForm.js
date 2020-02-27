@@ -74,7 +74,7 @@ class NoteForm extends React.Component {
                     id = "title"
                     style={{width:'100%'}}
                 /><br/>
-                <label htmlFor = "title"> Description </label>
+                <label htmlFor = "description"> Description </label>
                 <CKEditor
                         editor={ ClassicEditor }
                         data={this.state.description}

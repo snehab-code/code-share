@@ -112,7 +112,7 @@ export const startDeleteNote = (id) => {
 }
 
 export const startPutNote = (id, formData, history, batchId, agendaId) => {
-    return (dispatch, getState) => {
+    return dispatch => {
         const newTags = formData.tags.filter(tag => tag.__isNew__).map(tag => ({name: tag.label}))
         axios.post('/tags', newTags)
             .then(response => {
@@ -129,21 +129,6 @@ export const startPutNote = (id, formData, history, batchId, agendaId) => {
                 axios.put(`/notes/${id}`, formData)
                     .then(response=>{
                         const note = response.data
-                        note.agenda = {
-                            _id: agendaId,
-                            batch: batchId
-                        }
-                        const tags = getState().tags
-                        const noteTags = note.tags.map(tag => {
-                            const find = tags.find(storeTag => tag == storeTag._id)
-                            if (find) {
-                                return {
-                                    name: find.name,
-                                    _id: find._id
-                                }
-                            }
-                        })
-                        note.tags = noteTags
                         const id = note._id
                         dispatch(updateNote(id, note))
                         history.push(`/code-admin/batches/${batchId}/agendas/${agendaId}/notes`)

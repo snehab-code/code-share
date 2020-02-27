@@ -1,8 +1,8 @@
 import React from 'react'
 import {startGetStudentAgenda, removeStudentAgenda} from '../../actions/studentAgenda'
+import {clearStudentNotes} from '../../actions/studentNotes'
 import {connect} from 'react-redux'
 import OtpForm from './OtpForm'
-import {Redirect} from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 
 class StudentLanding extends React.Component{
@@ -11,10 +11,14 @@ class StudentLanding extends React.Component{
         this.state = {
             match: false,
             agenda: {},
-            notice: "",
-            redirect: false,
-            otp: ""
+            notice: ""
         }
+    }
+
+    componentDidMount() {
+        console.log('i ran')
+        this.props.dispatch(removeStudentAgenda())
+        this.props.dispatch(clearStudentNotes())
     }
 
     static getDerivedStateFromProps(props) {
@@ -26,8 +30,7 @@ class StudentLanding extends React.Component{
     }
 
     handleOtpMatch = (otp) => {
-        this.setState({otp, redirect: true})
-        this.props.dispatch(startGetStudentAgenda(otp))
+        this.props.dispatch(startGetStudentAgenda(otp, this.props.history))
     }
 
     handleReset = () => {
@@ -36,6 +39,7 @@ class StudentLanding extends React.Component{
     }
 
     render() {
+        console.log('auaua', this.state)
         return (
             <div className="otpContainer" style={{display:"flex", flexDirection: "column", alignItems:"center", justifyContent:"center", height:"40vh"}}>
                 {   
@@ -51,13 +55,6 @@ class StudentLanding extends React.Component{
                     </span>
 
                 }
-
-                {
-                    this.state.redirect && <Redirect to ={{
-                        pathname: `/agendas/${this.props.agenda._id}`
-                    }} />
-                }
-                
             </div>
         )
     }
